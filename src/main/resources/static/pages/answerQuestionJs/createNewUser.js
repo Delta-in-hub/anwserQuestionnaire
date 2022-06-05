@@ -8,7 +8,7 @@ $(function () {
     header();
     $("#ctl01_lblUserName").text(getCookie('userName'));
     createTimePicker();
-    getUserRole();
+    //getUserRole();
     changeTitle();
 });
 
@@ -38,6 +38,8 @@ function changeTitle() {
                 layer.msg("起止时间不能为空", {icon: 2});
             }  else if (userName.length > 10 || password.length > 10) {
                 layer.msg("账号或者密码最多不可超过10个字", {icon: 2});
+            } else if (startTime > stopTime){
+                layer.msg("开始时间不能晚于结束时间",{icon:2});
             } else {
                 var roleId = $("#userRoleAll").val();
 
@@ -161,7 +163,7 @@ function changeTitle() {
 
 
 // 获取所有用户角色
-function getUserRole() {
+/* function getUserRole() {
     var url = '/admin/queryRoleInfo';
     $.ajax({
         "async": false,
@@ -182,7 +184,7 @@ function getUserRole() {
             }
         }
     });
-}
+} */
 
 // 创建时间区域选择
 function createTimePicker() {

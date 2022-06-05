@@ -38,7 +38,9 @@ function loginSuccess(result){
         setCookie('modelId',result.data.modelId)
         window.location.href = "myQuestionnaires.html"
     }else{
-        layer.msg("此用户不存在",{icon:2});
+        //layer.msg("此用户不存在",{icon:2});
+        $('#errorMsgBox').show()
+        $('#errorMsgBox').text(result.message)
     }
 }
 
