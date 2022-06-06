@@ -37,10 +37,18 @@
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-
+    delete from user_info
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.aim.questionnaire.dao.entity.UserEntity">
-
+    insert into user_info (id, username, password, 
+      start_time, stop_time,
+      status, created_by, creation_date, 
+      last_updated_by, last_update_date)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+       #{startTime,jdbcType=TIMESTAMP}, #{stopTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=VARCHAR}, #{createdBy,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.aim.questionnaire.dao.entity.UserEntity">
   

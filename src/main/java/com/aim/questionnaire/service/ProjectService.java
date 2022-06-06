@@ -21,50 +21,78 @@ public class ProjectService {
 
     /**
      * 添加项目
+     * 
      * @param projectEntity
      * @return
      */
-    public int addProjectInfo(ProjectEntity projectEntity,String user) {
-        
-        return 0;
+    public int addProjectInfo(ProjectEntity projectEntity, String user) {
+        String id = UUIDUtil.getOneUUID();
+        projectEntity.setId(id);
+        // 获取用户信息
+        projectEntity.setCreatedBy(user);
+        projectEntity.setLastUpdatedBy(user);
+        // 获取当前时间
+        Date date = DateUtil.getCreateTime();
+        projectEntity.setCreationDate(date);
+        projectEntity.setLastUpdateDate(date);
+
+        int result = projectEntityMapper.insertSelective(projectEntity);
+        return result;
     }
 
     /**
      * 修改项目
+     * 
      * @param projectEntity
      * @return
      */
-    public int modifyProjectInfo(ProjectEntity projectEntity,String user) {
-       
-        return 0;
+    public int modifyProjectInfo(ProjectEntity projectEntity, String user) {
+        Date date = DateUtil.getCreateTime();
+        projectEntity.setLastUpdateDate(date);
+        // 获取用户信息
+        projectEntity.setLastUpdatedBy(user);
+        int result = projectEntityMapper.updateByPrimaryKeySelective(projectEntity);
+        return result;
     }
 
     /**
      * 删除项目
+     * 
      * @param projectEntity
      * @return
      */
     public int deleteProjectById(ProjectEntity projectEntity) {
-       
-        return 0;
+        String projectId = projectEntity.getId();
+        int result = projectEntityMapper.deleteProjectById(projectId);
+        return result;
     }
 
     /**
      * 查询项目列表
+     * 
      * @param projectEntity
      * @return
      */
     public List<Object> queryProjectList(ProjectEntity projectEntity) {
         List<Object> resultList = new ArrayList<Object>();
-        
+        if ("".equals(projectEntity.getProjectName())) {
+            projectEntity.setProjectName(null);
+        }
+
+        List<Map<String, Object>> proResult = projectEntityMapper.queryProjectList(projectEntity);
+        for (Map<String, Object> proObj : proResult) {
+            resultList.add(proObj);
+        }
         return resultList;
     }
 
     /**
      * 查询全部项目的名字接口
+     * 
      * @return
      */
-    public List<Map<String,Object>> queryAllProjectName() {
-        return null;
+    public List<Map<String, Object>> queryAllProjectName() {
+        List<Map<String, Object>> result = projectEntityMapper.queryAllProjectName();
+        return result;
     }
 }
