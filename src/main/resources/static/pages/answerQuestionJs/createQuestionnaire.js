@@ -33,7 +33,7 @@ function queryAllDataTypeSuccess(res) {
         var options = "";
 
         // setCookie('dataId', options.val());
-        //console.log(getCookie('dataId'));
+        // console.log(getCookie('dataId'));
         if (getCookie('dataId') != undefined) {
             var data1 = getCookie('dataId');
             $("#belongType").val(data1);

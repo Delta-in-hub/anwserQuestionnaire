@@ -103,7 +103,7 @@
         project_name = #{projectName,jdbcType=VARCHAR},
       </if>
       <if test="projectContent != null">
-        project_content = #{project_content,jdbcType=VARCHAR},
+        project_content = #{projectContent,jdbcType=VARCHAR},
       </if>
       <if test="createdBy != null">
         created_by = #{createdBy,jdbcType=CHAR},

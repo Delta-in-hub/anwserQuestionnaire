@@ -108,6 +108,8 @@ public interface QuestionnaireEntityMapper {
      * @return
      */
     int addQuestionnaire(HashMap<String, Object> map);
+    // int addQuestionnaire(QuestionnaireEntity questionnaireEntity);
+
 
     /**
      * 根据问卷id查询问卷的详细信息

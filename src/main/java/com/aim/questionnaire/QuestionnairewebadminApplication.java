@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
@@ -15,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan("com.aim.questionnaire.dao")
 public class QuestionnairewebadminApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(QuestionnairewebadminApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(QuestionnairewebadminApplication.class, args);
+  }
 }

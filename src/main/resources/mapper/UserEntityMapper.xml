@@ -51,14 +51,122 @@
       #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.aim.questionnaire.dao.entity.UserEntity">
-  
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="username != null">
+            username,
+        </if>
+        <if test="password != null">
+            password,
+        </if>
+
+        <if test="startTime != null">
+            start_time,
+        </if>
+        <if test="stopTime != null">
+            stop_time,
+        </if>
+        <if test="status == null">
+            status,
+        </if>
+        <if test="createdBy != null">
+            created_by,
+        </if>
+        <if test="creationDate != null">
+            creation_date,
+        </if>
+        <if test="lastUpdatedBy != null">
+            last_updated_by,
+        </if>
+        <if test="lastUpdateDate != null">
+            last_update_date,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="username != null">
+            #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            #{password,jdbcType=VARCHAR},
+        </if>
+
+        <if test="startTime != null">
+            #{startTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="stopTime != null">
+            #{stopTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="status == null">
+            1,
+        </if>
+        <if test="createdBy != null">
+            #{createdBy,jdbcType=CHAR},
+        </if>
+        <if test="creationDate != null">
+            #{creationDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="lastUpdatedBy != null">
+            #{lastUpdatedBy,jdbcType=CHAR},
+        </if>
+        <if test="lastUpdateDate != null">
+            #{lastUpdateDate,jdbcType=TIMESTAMP},
+        </if>
+    </trim>
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.aim.questionnaire.dao.entity.UserEntity">
-   
+    update user_info
+    <set>
+        <if test="username != null">
+            username = #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            password = #{password,jdbcType=VARCHAR},
+        </if>
+
+        <if test="startTime != null">
+            start_time = #{startTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="stopTime != null">
+            stop_time = #{stopTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="status != null">
+            status = #{status,jdbcType=VARCHAR},
+        </if>
+        <if test="createdBy != null">
+            created_by = #{createdBy,jdbcType=CHAR},
+        </if>
+        <if test="creationDate != null">
+            creation_date = #{creationDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="lastUpdatedBy != null">
+            last_updated_by = #{lastUpdatedBy,jdbcType=CHAR},
+        </if>
+        <if test="lastUpdateDate != null">
+            last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+        </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aim.questionnaire.dao.entity.UserEntity">
- 
+    update user_info
+    set username = #{username,jdbcType=VARCHAR},
+    password = #{password,jdbcType=VARCHAR},
+
+    start_time = #{startTime,jdbcType=TIMESTAMP},
+    stop_time = #{stopTime,jdbcType=TIMESTAMP},
+    status = #{status,jdbcType=VARCHAR},
+    created_by = #{createdBy,jdbcType=CHAR},
+    creation_date = #{creationDate,jdbcType=TIMESTAMP},
+    last_updated_by = #{lastUpdatedBy,jdbcType=CHAR},
+    last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
     <!--根据用户名查找用户信息-->
   <select id="selectUserInfo" parameterType="java.lang.String" resultType="com.aim.questionnaire.dao.entity.UserEntity">
@@ -74,7 +182,10 @@
   </select>
   <!--根据用户名查找用户信息-->
   <select id="selectAllByName" parameterType="java.lang.String" resultType="com.aim.questionnaire.dao.entity.UserEntity">
-
+    SELECT id, username, password, status
+    FROM user_info
+    WHERE username = #{username,jdbcType=VARCHAR}
+      AND status = "1"
   </select>
 
   <!--根据用户名查找用户id-->

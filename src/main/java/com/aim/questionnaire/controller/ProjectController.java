@@ -39,6 +39,7 @@ public class ProjectController {
     public HttpResponseEntity queryProjectList(
             @RequestBody(required = false) ProjectEntity projectEntity) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        logger.info(projectEntity.getCreatedBy());
         List<Object> result = projectService.queryProjectList(projectEntity);
         httpResponseEntity.setCode(Constans.SUCCESS_CODE);
         httpResponseEntity.setData(result);
@@ -53,8 +54,11 @@ public class ProjectController {
      */
     @RequestMapping(value = "/deleteProjectById", method = RequestMethod.POST,
             headers = "Accept=application/json")
-    public HttpResponseEntity deleteProjectById(ProjectEntity projectEntity) {
+    public HttpResponseEntity deleteProjectById(@RequestBody ProjectEntity projectEntity) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        logger.info(projectEntity.getId());
+        logger.info(projectEntity.getUserId());
+        logger.info(projectEntity.getProjectName());
         int result = projectService.deleteProjectById(projectEntity);
         if (result == -1) {
             httpResponseEntity.setCode(Constans.EXIST_CODE);
