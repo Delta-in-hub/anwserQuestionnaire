@@ -80,7 +80,7 @@ public interface QuestionnaireEntityMapper {
    * @param id
    * @return
    */
-  List<Map<String, Object>> queryQuestionListByProjectId(String id);
+  List<Map<String, Object>> queryQuestionListByProjectId(String projectId);
 
   /**
    * 根据问卷id查询问卷的概述信息

@@ -168,9 +168,29 @@ public class QuestionnaireController {
     String url = "/pages/previewQuestionnaire.html?i=" + entity.getId();
     HashMap<String, Object> result = new HashMap<>();
     result.put("url", url);
-    result.put("tinyurl",url);
+    result.put("tinyurl", url);
     httpResponseEntity.setCode(Constans.SUCCESS_CODE);
     httpResponseEntity.setData(result);
+    return httpResponseEntity;
+  }
+
+  // queryProjectList
+  @RequestMapping(
+      value = "/queryQuestionList",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryProjectList(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    List<Map<String, Object>> result = questionnaireService.queryProjectList(entity.getProjectId());
+    if (result.size() > 0) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setData(result);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
+      httpResponseEntity.setData(entity.getId());
+    }
+
     return httpResponseEntity;
   }
 }

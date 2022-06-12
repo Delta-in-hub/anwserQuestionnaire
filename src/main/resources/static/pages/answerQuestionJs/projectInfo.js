@@ -6,7 +6,7 @@ $(function () {
     header();
     $("#ctl01_lblUserName").text(getCookie('userName'));
     getProjectInfo();
-
+    getQuestionList();
 });
 
 // 查看项目详细信息
@@ -27,17 +27,64 @@ function getProjectInfoSuccess(result) {
     if (result.code == "666") {
         var projectInfo = result.data[0];
         $("#projectNameSpan").text(projectInfo.projectName);
-        $("#createTimeSpan").text(projectInfo.createDate.replace(/-/g,'/'));
+        $("#createTimeSpan").text(projectInfo.createDate.replace(/-/g, '/'));
         $("#adminSpan").text(projectInfo.createdBy);
         $("#projectContentSpan").text(projectInfo.projectContent);
 
+        // var text = "";
+        //     text += "<tr>";
+        //     text += "    <td style=\"text-align: center;color: #d9534f\" colspan=\"4\">暂无调查问卷</td>";
+        //     text += "</tr>";
+        $("#questTableBody").empty();
+        // $("#questTableBody").append(text)
+
+    } else if (result.code == "333") {
+        layer.msg(result.message, {icon: 2});
+        setTimeout(function () {
+            window.location.href = 'login.html';
+        }, 1000)
+    } else {
+        layer.msg(result.message, {icon: 2})
+    }
+}
+
+function getQuestionList() {
+    var projectId = getCookie('projectId');
+    var url = '/queryQuestionList';
+    var data = {
+        "projectId": projectId,
+        "id": getCookie('questionId')
+    };
+    commonAjaxPost(true, url, data, getQuestionListSuccess);
+}
+
+function getQuestionListSuccess(result) {
+    // //console.log(result)
+    if (result.code == "666") {
+        var questionList = result.data;
         var text = "";
+        for (var i = 0; i < questionList.length; i++) {
+            // debugger
+            var question = questionList[i];
+            var id = question.id;
+            var name = question.questionName;
+            var content = question.questionContent;
+            var endTime = question.endTime;
+            var creationDate = question.startTime;
+            var dataId = question.dataId;
             text += "<tr>";
-            text += "    <td style=\"text-align: center;color: #d9534f\" colspan=\"4\">暂无调查问卷</td>";
+            text += "    <td style=\"text-align: center\">" + (i + 1) + "</td>";
+            text += "    <td style=\"text-align: center\">" + name + "</td>";
+            // text += "    <td style=\"text-align: center\">" + content + "</td>";
+            // text += "    <td style=\"text-align: center\">" + endTime + "</td>";
+            text += "    <td style=\"text-align: center\">" + creationDate + "</td>";
+            text += "    <td style=\"text-align: center\">";
+            text += "        <a href=\"javascript:void(0)\" onclick=\"editQuest(" + id + ",'" + name + "','" + content + "','" + endTime + "','" + creationDate + "','" + dataId + "')\">编辑</a>";
+            text += "    </td>";
             text += "</tr>";
+        }
         $("#questTableBody").empty();
         $("#questTableBody").append(text)
-
     } else if (result.code == "333") {
         layer.msg(result.message, {icon: 2});
         setTimeout(function () {
@@ -100,9 +147,7 @@ function editQuest(id, name, content, endTime, creationDate, dataId) {
             setCookie("dataId", dataId);
             window.location.href = 'editQuestionnaire.html'
             // }
-        }
-
-        else if (result.code == "333") {
+        } else if (result.code == "333") {
             layer.msg(result.message, {icon: 2});
             setTimeout(function () {
                 window.location.href = 'login.html';

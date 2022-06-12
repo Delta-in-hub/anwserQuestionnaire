@@ -3,8 +3,8 @@
  */
 
 $(function () {
-    $("#questionNameCount").html( getCookie("nameOfQuestionnaire") + "数量统计");
-    $("#questionNameDetail").html( getCookie("nameOfQuestionnaire") + "学校答题情况明细");
+    $("#questionNameCount").html(getCookie("nameOfQuestionnaire") + "数量统计");
+    $("#questionNameDetail").html(getCookie("nameOfQuestionnaire") + "学校答题情况明细");
 
     var oTable = new TableInit();
     oTable.Init();
@@ -21,7 +21,7 @@ $(function () {
                 selectContent += '<option value="' + result.data[i].id + '">' + result.data[i].questionName + '</option>'
             }
             $("#ddlActivitynew").html(selectContent)
-            $("#ddlActivitynew option[value='"+getCookie("questionId") +"']").attr("selected","selected");
+            $("#ddlActivitynew option[value='" + getCookie("questionId") + "']").attr("selected", "selected");
         }
     });
     getQuestionnaireCount();
@@ -30,14 +30,14 @@ $(function () {
 //    切换问卷
 $("#ddlActivitynew").change(function () {
     var activity = $(this).val();
-    var nameQuestion =  $(this)[0].selectedOptions[0].innerHTML;
+    var nameQuestion = $(this)[0].selectedOptions[0].innerHTML;
     if (activity) {
         deleteCookie("questionId");
         setCookie("questionId", activity)
         deleteCookie("nameOfQuestionnaire");
         setCookie("nameOfQuestionnaire", nameQuestion)
-        $("#questionNameCount").html( getCookie("nameOfQuestionnaire") + "数量统计");
-        $("#questionNameDetail").html( getCookie("nameOfQuestionnaire") + "学校答题情况明细");
+        $("#questionNameCount").html(getCookie("nameOfQuestionnaire") + "数量统计");
+        $("#questionNameDetail").html(getCookie("nameOfQuestionnaire") + "学校答题情况明细");
         getQuestionnaireCount();
         getQuestionnaireAboutSchool();
     }
@@ -47,7 +47,8 @@ $("#ddlActivitynew").change(function () {
 function getQuestionnaireCount() {
     var url = '/queryQuestionnaireCount';
     var data = {
-        "questionId": getCookie("questionId")
+        "questionId": getCookie("questionId"),
+        "id": getCookie("questionId"),
     };
     commonAjaxPost(true, url, data, function (result) {
         if (result.code == "666") {
@@ -82,7 +83,6 @@ function getQuestionnaireCount() {
 function getQuestionnaireAboutSchool() {
     $("#countTable").bootstrapTable('refresh');
 }
-
 
 
 function TableInit() {
@@ -214,14 +214,13 @@ function TableInit() {
 }
 
 
-
 function getReport() {
 
     //下载报告
     $("#countTable").tableExport({
         type: "excel",
         escape: "false",
-        fileName:  getCookie("nameOfQuestionnaire")+ '学校答题情况明细'
+        fileName: getCookie("nameOfQuestionnaire") + '学校答题情况明细'
     });
 
 }

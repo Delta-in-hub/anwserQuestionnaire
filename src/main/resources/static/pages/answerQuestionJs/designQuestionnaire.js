@@ -956,7 +956,7 @@ function editFinish() {
                 }
             }
         }
-        debugger
+        // debugger
         //获取问卷名称
         var questionName = $('.questionTitle').text();
         //获取问卷说明
@@ -1176,7 +1176,7 @@ function sureChange() {
 function addQuestionnaireSuccess(res) {
     // console.log(res);
 
-    debugger;
+    // debugger;
     if (res.code == '666') {
         deleteCookie('QuestionId');
         deleteCookie('previewId');
@@ -1231,7 +1231,7 @@ function queryQuestionnaireAllSuccess(res) {
             questionStop = res.data.questionStop;
         }
 
-        debugger;
+        // debugger;
         // var question = res.data.question;
         var question = JSON.parse(res.data.question);
         setCookie('questionList', question);

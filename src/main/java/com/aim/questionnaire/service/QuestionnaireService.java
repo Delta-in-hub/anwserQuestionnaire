@@ -88,4 +88,9 @@ public class QuestionnaireService {
   public QuestionnaireEntity queryQuestContextEnd(String projectId) {
     return questionnaireEntityMapper.queryQuestContextEnd(projectId);
   }
+
+  // queryProjectList
+  public List<Map<String, Object>> queryProjectList(String projectId) {
+    return questionnaireEntityMapper.queryQuestionListByProjectId(projectId);
+  }
 }
