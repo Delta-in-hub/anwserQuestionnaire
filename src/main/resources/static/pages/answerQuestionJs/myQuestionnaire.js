@@ -107,16 +107,22 @@ function getQuestionnaireListSuccess(result) {
         // debugger;
         for (let i = 0; i < result.data.length; i++) {
             let questionnaire = result.data[i];
+            let name = questionnaire.questionName;
+            // debugger;
             questionText += "<div class=\"panel-body\">";
             questionText += "<!--" + questionnaire.id + "-->";
             questionText += "<span style=\"font-size: 16px;\">" + questionnaire.questionName + "</span>";
-            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\">" + "修改信息" + "</span>";
+
             questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"designQuestion(" + "'" + questionnaire.id + "'" + ")\">" + "修改问卷" + "</span>";
             questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"deleteQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "删除问卷" + "</span>";
             //预览问卷
             questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"previewQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "预览问卷" + "</span>";
 
-            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\">" + "统计问卷" + "</span>";
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"sendQuestionnaire(" + "'" + questionnaire.id + "'," + "'" + name + "'" + ")\" >" + "发布问卷" + "</span>";
+
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"countQuestionnaire(" + "'" + questionnaire.id + "'," + "'" + name + "'" + ")\" >" + "统计问卷" + "</span>";
+
+            // countQuestionnaire
 
             questionText += "</div>";
         }
@@ -225,6 +231,23 @@ function getProjectInfo(id) {
     deleteCookie("projectId");
     setCookie("projectId", id);
     window.location.href = 'projectInfo.html'
+}
+
+function sendQuestionnaire(id, name) {
+    // var questionId = getCookie("questionId");
+    // var dataId = getCookie("dataId");  // 在校生：2；毕业生：3；教师：4；用人单位：5
+    // var nameOfQuestionnaire = getCookie("nameOfQuestionnaire");
+    setCookie("questionId", id);
+    // setCookie("dataId", 2);
+    setCookie("nameOfQuestionnaire", name);
+    window.location.href = '/pages/sendQuestionnaire.html';
+}
+
+
+function countQuestionnaire(id, name) {
+    setCookie("questionId", id);
+    setCookie("nameOfQuestionnaire", name);
+    window.location.href = '/pages/countQuestionnaire.html';
 }
 
 // 为了创建问卷而获取项目id、项目名称

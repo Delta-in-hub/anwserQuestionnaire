@@ -84,6 +84,8 @@ public class QuestionnaireService {
     return res;
   }
 
-
-
+  // queryQuestContextEnd
+  public QuestionnaireEntity queryQuestContextEnd(String projectId) {
+    return questionnaireEntityMapper.queryQuestContextEnd(projectId);
+  }
 }

@@ -3,6 +3,9 @@ var sendTime = "";
 var questionId = getCookie("questionId");
 var dataId = getCookie("dataId");  // 在校生：2；毕业生：3；教师：4；用人单位：5
 var nameOfQuestionnaire = getCookie("nameOfQuestionnaire");
+console.log(questionId);
+console.log(dataId);
+console.log(nameOfQuestionnaire);
 
 document.getElementById("questPeople").innerText = "调查人员信息 — " + nameOfQuestionnaire;
 document.getElementById("ctl02_ContentPlaceHolder1_InviteEmail1_hrefSend").innerText = "批量发送问卷 — " + nameOfQuestionnaire;
@@ -25,7 +28,7 @@ window.operateEvents = {
 };
 
 //不是用人单位的列名
-var columnsForCompany =[{
+var columnsForCompany = [{
     checkbox: true,
     visible: false
 }, {
@@ -118,7 +121,7 @@ var previewUrl = '';
 var objLength;
 var objLength1;
 //默认顶部导航栏的显示
-if(getCookie("changeTableType") == "shortMessageSend"){   //从已发问卷页面点击进入的问卷发布页面
+if (getCookie("changeTableType") == "shortMessageSend") {   //从已发问卷页面点击进入的问卷发布页面
     deleteCookie("changeTableType");
     document.getElementById('linkSendA').style.backgroundColor = "#fff";
     document.getElementById('linkSendA').removeAttribute("class", "inside-wrapper nav-show nav-items clicked linkCode-icon");
@@ -136,7 +139,7 @@ if(getCookie("changeTableType") == "shortMessageSend"){   //从已发问卷页�
         wordStatic(msg);
     }
 
-}else{ //正常进入
+} else { //正常进入
     document.getElementById('linkSendA').style.backgroundColor = "#1ea0fa";
     document.getElementById('linkSendA').removeAttribute("class", "inside-wrapper nav-show nav-items linkCode-icon");
     document.getElementById('linkSendA').setAttribute("class", "inside-wrapper nav-show nav-items clicked linkCode-icon");
@@ -191,6 +194,7 @@ function TableInit() {
         };
         return JSON.stringify(temp);
     }
+
     return oTableInit;
 }
 
@@ -511,7 +515,7 @@ function layOutSend() {
                 "contentType": "application/json",
                 success: function (result) {
                     //console.log(result);
-                   if (result.code == "333") {
+                    if (result.code == "333") {
                         layer.closeAll('loading');
                         layer.msg(result.message, {icon: 2});
                         setTimeout(function () {
@@ -622,9 +626,11 @@ function getQrcode() {
         dataType: "json",
         contentType: "application/json",
         success: function (res) {
-            // //console.log(res);
-            var resData = JSON.parse(res.data);
-            shortUrl = resData.tinyurl;
+            console.log(res);
+            var resData = res.data;
+
+            shortUrl = window.location.origin + resData.tinyurl;
+            console.log(shortUrl);
             document.getElementById('ctl02_ContentPlaceHolder1_txtLink').value = shortUrl;
             // $('#code').qrcode(); //任意字符串
             _$("#ctl02_ContentPlaceHolder1_imgQrcode").qrcode({
@@ -635,6 +641,7 @@ function getQrcode() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             // alert(jqXHR);
+            console.log(shortUrl);
         },
     });
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,6 +133,44 @@ public class QuestionnaireController {
       httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
       httpResponseEntity.setData(entity.getId());
     }
+    return httpResponseEntity;
+  }
+
+  // queryQuestContextEnd
+  @RequestMapping(
+      value = "/queryQuestContextEnd",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryQuestContextEnd(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    QuestionnaireEntity result = questionnaireService.queryQuestContextEnd(entity.getId());
+    if (result != null) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setData(result);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
+      httpResponseEntity.setData(entity.getId());
+    }
+    return httpResponseEntity;
+  }
+
+  // getShortUrlForLink
+  @RequestMapping(
+      value = "/getShortUrlForLink",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity getShortUrlForLink(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    //    window.location.href = 'previewQuestionnaire.html?i=' + questionId;
+    String url = "/pages/previewQuestionnaire.html?i=" + entity.getId();
+    HashMap<String, Object> result = new HashMap<>();
+    result.put("url", url);
+    result.put("tinyurl",url);
+    httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+    httpResponseEntity.setData(result);
     return httpResponseEntity;
   }
 }
