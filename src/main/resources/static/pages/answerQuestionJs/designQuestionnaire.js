@@ -23,6 +23,7 @@ $(function () {
         setCookie('QuestionId', getCookie("QuestionId"));
         var da = {'id': getCookie("QuestionId")};
         console.log(getCookie("QuestionId"));
+        questionId = getCookie("QuestionId");
     } else {
         deleteCookie('QuestionId');
         deleteCookie('isEdit');
@@ -44,11 +45,12 @@ $(function () {
     }
 
     var url = '/queryQuestionnaireAll';
-    //commonAjaxPost(true, url, da, queryQuestionnaireAllSuccess);
+    commonAjaxPost(true, url, da, queryQuestionnaireAllSuccess);
 
 });
 
 
+// 从url中获取参数
 function GetRequest() {
     //url例子：www.bicycle.com?id="123456"&Name="bicycle"；
     var url = decodeURI(location.search); //?id="123456"&Name="bicycle";
@@ -587,23 +589,23 @@ $(".bianji").live("click", function () {
                     }
                 }
             }
-            if (texte_bt_val == '请编辑问题!'||texte_bt_val == '') {
+            if (texte_bt_val == '请编辑问题!' || texte_bt_val == '') {
 
-            }else {
+            } else {
                 console.log($(".dx_box").find(".kzjxx_iteam"))
                 var totalLength = $(".dx_box").find(".kzjxx_iteam").length
                 for (var inde = 0; inde < chooseOptions; inde++) {
                     console.log($($(".dx_box").find(".input_wenbk")[inde]))
-                    console.log($($(".dx_box").find(".input_wenbk")[inde]).val() )
+                    console.log($($(".dx_box").find(".input_wenbk")[inde]).val())
                     console.log($(".dx_box").find(".kzjxx_iteam").eq(inde).find(".input_wenbk"))
                     console.log($($(".dx_box").find(".kzjxx_iteam").eq(inde).find(".input_wenbk")))
                     // if ($($(".dx_box").find(".input_wenbk")[inde]).val() == '') {
                     if ($($(".dx_box").find(".kzjxx_iteam").eq(inde).find(".input_wenbk")).val() == '') {
                         // $(".dx_box").find(".input_wenbk")[inde].parentNode.style.display = "none"
                         // $(".dx_box").find(".input_wenbk")[inde].remove()
-                        console.log( $(".dx_box").find(".kzjxx_iteam")[inde])
-                        console.log( $(".dx_box").find(".kzjxx_iteam").length)
-                        for(var removeList = inde;removeList<totalLength;removeList++){
+                        console.log($(".dx_box").find(".kzjxx_iteam")[inde])
+                        console.log($(".dx_box").find(".kzjxx_iteam").length)
+                        for (var removeList = inde; removeList < totalLength; removeList++) {
 
                             $($(".dx_box").find(".kzjxx_iteam")[inde]).remove()
                         }
@@ -778,8 +780,8 @@ $(".swcbj_but").live("click", function () {
 
     var jcxxxx = $(this).parent(".bjqxwc_box").parent(".dx_box"); //编辑题目区
     var questionType = jcxxxx.attr("data-t"); //获取题目类型
-console.log(jcxxxx.find(".btwen_text").val())
-    if(jcxxxx.find(".btwen_text").val()!=""){
+    console.log(jcxxxx.find(".btwen_text").val())
+    if (jcxxxx.find(".btwen_text").val() != "") {
 
         switch (questionType) {
             case "0": //单选
@@ -826,7 +828,7 @@ console.log(jcxxxx.find(".btwen_text").val())
                 jcxxxx.find(".title_itram").children("div.kzjxx_iteam").each(function () {
                     var texte_val_bj = $(this).find(".input_wenbk").val(); //获取填写信息
                     var checkbox = $(this).find("input.fxk").is(':checked'); //是否可填空
-                    if(texte_val_bj==""){
+                    if (texte_val_bj == "") {
                         texte_val_bj = "选项"
                     }
                     x_iteam.push({
@@ -837,7 +839,7 @@ console.log(jcxxxx.find(".btwen_text").val())
                 });
                 var y_iteams = y_iteam.split(",");
                 console.log(y_iteams)
-                if(y_iteams.length==2&&y_iteams[1]==""){
+                if (y_iteams.length == 2 && y_iteams[1] == "") {
                     layer.alert('请将试题填写完整', {
                         skin: 'layui-layer-lan'
                         , closeBtn: 0
@@ -919,7 +921,7 @@ console.log(jcxxxx.find(".btwen_text").val())
         }
         //清除
         $(this).parent(".bjqxwc_box").parent(".dx_box").empty().hide();
-    }else{
+    } else {
         layer.alert('请填写题目再保存', {
             skin: 'layui-layer-lan'
             , closeBtn: 0
@@ -954,6 +956,7 @@ function editFinish() {
                 }
             }
         }
+        debugger
         //获取问卷名称
         var questionName = $('.questionTitle').text();
         //获取问卷说明
@@ -961,9 +964,17 @@ function editFinish() {
         var da = '';
         var url = '';
         da = {
+            // var question = res.data.question;
+            // setCookie('questionList', question);
             'questionList': questionList,
+            'question': JSON.stringify(questionList),
+
             'questionTitle': questionTitles, //所有的题目
+
+            'id': questionId,
             'questionId': questionId,
+
+
             'dataId': dataId,
             'questionName': questionName,
             'questionContent': questionContent,
@@ -980,7 +991,8 @@ function previewQuestion() {
     // console.log(getCookie('previewId'));
     var idQ = getCookie('previewId');
     if (idQ == undefined) {
-        layer.alert('请保存之后再预览', {
+        // layer.alert('请保存之后再预览', {
+        layer.alert('请完成编辑之后再预览', {
             skin: 'layui-layer-lan'
             , closeBtn: 0
         });
@@ -1005,12 +1017,12 @@ function changeInfo() {
         , shade: 0.6 //遮罩透明度
         , anim: 2 //0-6的动画形式，-1不开启
         , content: '<div style="padding: 20px 10px 0 10px;" id="cancelChange">' +
-        '<div class="form-group"><label style="margin-bottom: 10px">问卷标题:</label><input class="form-control" id="questionName"></div>' +
-        '<div class="form-group"><label>问卷说明:</label><textarea class="form-control" style="height: 80px;" id="questionContent"></textarea></div>' +
-        '<div class="form-group" style="margin-left: 330px">' +
-        '<button class="layui-btn layui-btn-primary" onclick="cancelChange()">取消</button>' +
-        '<button class="layui-btn layui-btn-normal" onclick="sureChange()">确定</button></div>' +
-        '</div>'
+            '<div class="form-group"><label style="margin-bottom: 10px">问卷标题:</label><input class="form-control" id="questionName"></div>' +
+            '<div class="form-group"><label>问卷说明:</label><textarea class="form-control" style="height: 80px;" id="questionContent"></textarea></div>' +
+            '<div class="form-group" style="margin-left: 330px">' +
+            '<button class="layui-btn layui-btn-primary" onclick="cancelChange()">取消</button>' +
+            '<button class="layui-btn layui-btn-normal" onclick="sureChange()">确定</button></div>' +
+            '</div>'
     });
     $('#questionName').val(questionName);
     $('#questionContent').val(questionContent);
@@ -1163,6 +1175,8 @@ function sureChange() {
 //完成问卷设计的总按钮 的回掉
 function addQuestionnaireSuccess(res) {
     // console.log(res);
+
+    debugger;
     if (res.code == '666') {
         deleteCookie('QuestionId');
         deleteCookie('previewId');
@@ -1187,6 +1201,9 @@ function addQuestionnaireSuccess(res) {
     } else {
         layer.msg(res.message, {icon: 2});
     }
+    setTimeout(function () {
+        window.location.href = '/pages/myQuestionnaires.html';
+    }, 1000)
 }
 
 //根据id查询问卷详情
@@ -1213,7 +1230,10 @@ function queryQuestionnaireAllSuccess(res) {
             startTime = res.data.startTime;
             questionStop = res.data.questionStop;
         }
-        var question = res.data.question;
+
+        debugger;
+        // var question = res.data.question;
+        var question = JSON.parse(res.data.question);
         setCookie('questionList', question);
         if (question != null) {
             for (var i = 0; i < question.length; i++) {

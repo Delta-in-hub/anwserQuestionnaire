@@ -110,11 +110,13 @@ function getQuestionnaireListSuccess(result) {
             questionText += "<div class=\"panel-body\">";
             questionText += "<!--" + questionnaire.id + "-->";
             questionText += "<span style=\"font-size: 16px;\">" + questionnaire.questionName + "</span>";
-            questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "预览问卷" + "</span>";
-            questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "修改问卷" + "</span>";
-            questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "统计问卷" + "</span>";
-            questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\" onclick=\"deleteQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "删除问卷" + "</span>";
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\">" + "修改信息" + "</span>";
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"designQuestion(" + "'" + questionnaire.id + "'" + ")\">" + "修改问卷" + "</span>";
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"deleteQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "删除问卷" + "</span>";
+            //预览问卷
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\" onclick=\"previewQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "预览问卷" + "</span>";
 
+            questionText += "<span style=\"font-size: 14px;float: right;color:#0e527a;display: block;margin: 3px;\">" + "统计问卷" + "</span>";
 
             questionText += "</div>";
         }
@@ -196,6 +198,16 @@ function deleteQuestion(questionId) {
     });
 }
 
+
+function previewQuestion(questionId) {
+    setCookie("questionId", questionId);
+    window.location.href = 'previewQuestionnaire.html?i=' + questionId;
+}
+
+function designQuestion(questionId) {
+    setCookie("QuestionId", questionId);
+    window.location.href = 'designQuestionnaire.html';
+}
 
 // 编辑项目，在问卷未发布的状态下才可以编辑项目信息
 function editProject(id, name, content) {

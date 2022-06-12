@@ -70,4 +70,20 @@ public class QuestionnaireService {
   public int deleteQuestionnaire(String id) {
     return questionnaireEntityMapper.deleteByPrimaryKey(id);
   }
+
+  // queryQuestionnaireAll
+  // selectByPrimaryKey
+  public QuestionnaireEntity queryQuestionnaireById(String id) {
+    return questionnaireEntityMapper.selectByPrimaryKey(id);
+  }
+
+  // modifyQuestionnaire
+  // updateByPrimaryKeySelective
+  public int modifyQuestionnaire(QuestionnaireEntity entity) {
+    int res = questionnaireEntityMapper.updateByPrimaryKeySelective(entity);
+    return res;
+  }
+
+
+
 }

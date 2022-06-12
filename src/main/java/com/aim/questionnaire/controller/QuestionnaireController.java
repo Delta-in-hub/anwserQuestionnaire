@@ -52,24 +52,86 @@ public class QuestionnaireController {
     return httpResponseEntity;
   }
 
-  //deleteQuestionnaire
-    @RequestMapping(
-        value = "/deleteQuestionnaire",
-        method = RequestMethod.POST,
-        headers = "Accept=application/json")
-    public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity entity) {
-        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-        logger.info(entity.getId());
-        int res = questionnaireService.deleteQuestionnaire(entity.getId());
-        logger.info(String.valueOf(res));
-        if(res == 1){
-            httpResponseEntity.setCode(Constans.SUCCESS_CODE);
-            httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
-        }else{
-            httpResponseEntity.setCode(Constans.QUESTIONNAIRE_NO_CODE);
-            httpResponseEntity.setMessage(Constans.MODEL_DELETE_FAIL);
-        }
-        return httpResponseEntity;
+  // deleteQuestionnaire
+  @RequestMapping(
+      value = "/deleteQuestionnaire",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    int res = questionnaireService.deleteQuestionnaire(entity.getId());
+    logger.info(String.valueOf(res));
+    if (res == 1) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.QUESTIONNAIRE_NO_CODE);
+      httpResponseEntity.setMessage(Constans.MODEL_DELETE_FAIL);
     }
+    return httpResponseEntity;
+  }
 
+  // queryQuestionnaireAll
+  @RequestMapping(
+      value = "/queryQuestionnaireAll",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryQuestionnaireAll(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    QuestionnaireEntity result = questionnaireService.queryQuestionnaireById(entity.getId());
+    if (result != null) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setData(result);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
+      httpResponseEntity.setData(entity.getId());
+    }
+    return httpResponseEntity;
+  }
+
+  // modifyQuestionnaire
+  @RequestMapping(
+      value = "/modifyQuestionnaire",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity modifyQuestionnaire(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    int res = questionnaireService.modifyQuestionnaire(entity);
+    if (res == 1) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.UPDATE_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.EXIST_MESSAGE);
+    }
+    httpResponseEntity.setData(entity.getId());
+    return httpResponseEntity;
+  }
+
+  // queryQuestionnaireById
+  // questionName
+  // questionContent
+  //  questionList (question)
+  @RequestMapping(
+      value = "/queryQuestionnaireById",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryQuestionnaireById(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(entity.getId());
+    QuestionnaireEntity result = questionnaireService.queryQuestionnaireById(entity.getId());
+    if (result != null) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setData(result);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
+      httpResponseEntity.setData(entity.getId());
+    }
+    return httpResponseEntity;
+  }
 }
