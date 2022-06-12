@@ -51,4 +51,25 @@ public class QuestionnaireController {
     httpResponseEntity.setData(result);
     return httpResponseEntity;
   }
+
+  //deleteQuestionnaire
+    @RequestMapping(
+        value = "/deleteQuestionnaire",
+        method = RequestMethod.POST,
+        headers = "Accept=application/json")
+    public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity entity) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        logger.info(entity.getId());
+        int res = questionnaireService.deleteQuestionnaire(entity.getId());
+        logger.info(String.valueOf(res));
+        if(res == 1){
+            httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+            httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
+        }else{
+            httpResponseEntity.setCode(Constans.QUESTIONNAIRE_NO_CODE);
+            httpResponseEntity.setMessage(Constans.MODEL_DELETE_FAIL);
+        }
+        return httpResponseEntity;
+    }
+
 }

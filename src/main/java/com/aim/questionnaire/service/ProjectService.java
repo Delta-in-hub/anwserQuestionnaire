@@ -36,8 +36,7 @@ public class ProjectService {
         projectEntity.setCreationDate(date);
         projectEntity.setLastUpdateDate(date);
 
-        int result = projectEntityMapper.insertSelective(projectEntity);
-        return result;
+        return projectEntityMapper.insertSelective(projectEntity);
     }
 
     /**
@@ -51,8 +50,7 @@ public class ProjectService {
         projectEntity.setLastUpdateDate(date);
         // 获取用户信息
         projectEntity.setLastUpdatedBy(user);
-        int result = projectEntityMapper.updateByPrimaryKeySelective(projectEntity);
-        return result;
+        return projectEntityMapper.updateByPrimaryKeySelective(projectEntity);
     }
 
     /**
@@ -63,8 +61,7 @@ public class ProjectService {
      */
     public int deleteProjectById(ProjectEntity projectEntity) {
         String id = projectEntity.getId();
-        int result = projectEntityMapper.deleteProjectById(id);
-        return result;
+        return projectEntityMapper.deleteProjectById(id);
     }
 
     /**
@@ -92,7 +89,6 @@ public class ProjectService {
      * @return
      */
     public List<Map<String, Object>> queryAllProjectName() {
-        List<Map<String, Object>> result = projectEntityMapper.queryAllProjectName();
-        return result;
+        return projectEntityMapper.queryAllProjectName();
     }
 }

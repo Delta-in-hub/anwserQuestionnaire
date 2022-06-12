@@ -108,11 +108,14 @@ function getQuestionnaireListSuccess(result) {
         for (let i = 0; i < result.data.length; i++) {
             let questionnaire = result.data[i];
             questionText += "<div class=\"panel-body\">";
-            questionText += "<!--"+ questionnaire.id +"-->";
+            questionText += "<!--" + questionnaire.id + "-->";
             questionText += "<span style=\"font-size: 16px;\">" + questionnaire.questionName + "</span>";
             questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "预览问卷" + "</span>";
             questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "修改问卷" + "</span>";
             questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\">" + "统计问卷" + "</span>";
+            questionText += "<span style=\"font-size: 14px;float: right;color:cornflowerblue;display: block;margin: 3px;\" onclick=\"deleteQuestion(" + "'" + questionnaire.id + "'" + ")\" >" + "删除问卷" + "</span>";
+
+
             questionText += "</div>";
         }
     } else {
@@ -144,6 +147,36 @@ function deleteProject(projectId) {
             "ID": projectId,
             "iD": projectId,
             "Id": projectId,
+        };
+        commonAjaxPost(true, url, data, function (result) {
+            // //console.log(result);
+            if (result.code == "666") {
+                layer.msg(result.message, {icon: 1});
+                getProjectQuest();
+            } else if (result.code == "333") {
+                layer.msg(result.message, {icon: 2});
+                setTimeout(function () {
+                    window.location.href = 'login.html';
+                }, 1000);
+            } else {
+                layer.msg(result.message, {icon: 2});
+            }
+        });
+    }, function () {
+    });
+}
+
+function deleteQuestion(questionId) {
+    layer.confirm('您确认要删除此问卷吗？', {
+        btn: ['确定', '取消'] //按钮
+    }, function () {
+        var url = '/deleteQuestionnaire';
+        var data = {
+            "id": questionId,
+            "questionName": questionId,
+            "ID": questionId,
+            "iD": questionId,
+            "Id": questionId,
         };
         commonAjaxPost(true, url, data, function (result) {
             // //console.log(result);
