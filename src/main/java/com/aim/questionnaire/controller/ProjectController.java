@@ -55,24 +55,24 @@ public class ProjectController {
       method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity deleteProjectById(@RequestBody ProjectEntity projectEntity) {
-      HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-      logger.info(projectEntity.getId());
-      logger.info(projectEntity.getUserId());
-      logger.info(projectEntity.getProjectName());
-      int result;
-      try {
-          result = projectService.deleteProjectById(projectEntity);
-      } catch (Exception e) {
-            result = -1;
-      }
-      if (result == -1) {
-          httpResponseEntity.setCode(Constans.EXIST_CODE);
-          httpResponseEntity.setMessage(Constans.PROJECT_EXIST_MESSAGE);
-      } else {
-          httpResponseEntity.setCode(Constans.SUCCESS_CODE);
-          httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
-      }
-      return httpResponseEntity;
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    logger.info(projectEntity.getId());
+    logger.info(projectEntity.getUserId());
+    logger.info(projectEntity.getProjectName());
+    int result;
+    try {
+      result = projectService.deleteProjectById(projectEntity);
+    } catch (Exception e) {
+      result = -1;
+    }
+    if (result == -1) {
+      httpResponseEntity.setCode(Constans.EXIST_CODE);
+      httpResponseEntity.setMessage(Constans.PROJECT_EXIST_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
+    }
+    return httpResponseEntity;
   }
 
   /**
@@ -87,10 +87,16 @@ public class ProjectController {
       headers = "Accept=application/json")
   public HttpResponseEntity addProjectInfo(@RequestBody ProjectEntity projectEntity) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-    int result = projectService.addProjectInfo(projectEntity, "admin");
-    httpResponseEntity.setData(result);
-    httpResponseEntity.setCode(Constans.SUCCESS_CODE);
-    httpResponseEntity.setMessage(Constans.ADD_MESSAGE);
+
+    int result = projectService.addProjectInfo(projectEntity, projectEntity.getCreatedBy());
+    if (result != 0) {
+      httpResponseEntity.setData(result);
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.ADD_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.EXIST_CODE);
+      httpResponseEntity.setMessage(Constans.NAME_EXIT_MESSAGE);
+    }
     return httpResponseEntity;
   }
 
