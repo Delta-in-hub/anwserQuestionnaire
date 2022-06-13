@@ -32,9 +32,16 @@ public class QuestionnaireController {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
     logger.info(entity.getQuestionName());
     logger.info(entity.getQuestionContent());
-    questionnaireService.addQuestionnaire(entity);
-    httpResponseEntity.setCode(Constans.SUCCESS_CODE);
-    httpResponseEntity.setMessage(Constans.ADD_MESSAGE);
+    String res = questionnaireService.addQuestionnaire(entity);
+    if (res != null) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.ADD_MESSAGE);
+      httpResponseEntity.setData(res);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.EXIST_MESSAGE);
+    }
+
     return httpResponseEntity;
   }
 
@@ -190,6 +197,43 @@ public class QuestionnaireController {
       httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
       httpResponseEntity.setData(entity.getId());
     }
+
+    return httpResponseEntity;
+  }
+
+  // queryHistoryQuestionnaire
+  @RequestMapping(
+      value = "/queryHistoryQuestionnaire",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryHistoryQuestionnaire(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    List<Map<String, Object>> result =
+        questionnaireService.queryHistoryQuestionnaire(entity.getProjectId());
+    if (result.size() > 0) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setData(result);
+    } else {
+      httpResponseEntity.setCode(Constans.LOGOUT_NO_CODE);
+      httpResponseEntity.setMessage(Constans.QUESTIONNAIRE_NO_MESSAGE);
+      httpResponseEntity.setData(entity.getId());
+    }
+    return httpResponseEntity;
+  }
+
+  // queryQuestionnaireMould
+  @RequestMapping(
+      value = "/queryQuestionnaireMould",
+      method = RequestMethod.POST,
+      headers = "Accept=application/json")
+  public HttpResponseEntity queryQuestionnaireMould(@RequestBody QuestionnaireEntity entity) {
+    HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+    List<Map<String, Object>> result =
+        questionnaireService.queryQuestionnaireMould(entity.getDataId());
+
+
+    httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+    httpResponseEntity.setData(result);
 
     return httpResponseEntity;
   }

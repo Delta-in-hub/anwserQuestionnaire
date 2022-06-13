@@ -13,6 +13,8 @@ $(function () {
     if (getCookie('TQuestionName') != undefined && getCookie('TQuestionContent') != undefined) {
         $("#questionName").val(getCookie('TQuestionName'));
         $("#questionContent").val(getCookie('TQuestionContent'));
+        deleteCookie('TQuestionName');
+        deleteCookie('TQuestionContent');
     }
 });
 
@@ -90,7 +92,6 @@ function quickCreate() {
     }
     //console.log(getCookie('projectIdForCreate'));
     //console.log(getCookie('QuestionId'));
-    // debugger;
     //直接创建问卷
     if (urlObj.i == "") {
         var da = {
@@ -122,6 +123,10 @@ function quickCreate() {
             'dataId': getCookie('dataId'),
             'projectId': getCookie('TProjectId')
         };
+        if (getCookie('TProjectId') == undefined) {
+            da1.projectId = getCookie('projectId');
+            da1.questionStop = '5';
+        }
         // deleteCookie('QuestionId');
     }
 }
@@ -129,6 +134,12 @@ function quickCreate() {
 function addQuestionnaireSuccess(res) {
     //console.log(res);
     if (res.code == '666') {
+        debugger
+        var url = '/modifyQuestionnaire';
+        da1.id = res.data;
+        commonAjaxPost(false, url, da1, modifyQuestionnaireSuccess);
+
+
         layer.msg(res.message, {icon: 1});
         deleteCookie('dataId');
         window.location.href = 'myQuestionnaires.html'
@@ -142,11 +153,23 @@ function addQuestionnaireSuccess(res) {
     }
 }
 
+function modifyQuestionnaireSuccess(res) {
+    //console.log(res);
+    if (res.code == '666') {
+        layer.msg(res.message, {icon: 1});
+    }
+}
+
 function queryQuestionnaireAllSuccess(res) {
     //console.log(res);
     if (res.code == '666') {
+        debugger;
         da1.questionList = res.data.question;
         da1.questionTitle = res.data.questionTitle;
+        // 'question': JSON.stringify(questionList),
+        // da1.question = JSON.stringify(res.data.question);
+        da1.question = res.data.question;
+
         //console.log(da1);
         var url = '/addQuestionnaire';
         commonAjaxPost(true, url, da1, addQuestionnaireSuccess);

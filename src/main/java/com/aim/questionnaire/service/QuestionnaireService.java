@@ -1,24 +1,11 @@
 package com.aim.questionnaire.service;
 
-import com.aim.questionnaire.common.utils.DateUtil;
 import com.aim.questionnaire.common.utils.UUIDUtil;
 // import com.aim.questionnaire.config.shiro.ShiroService;
-import com.aim.questionnaire.dao.ModelEntityMapper;
-import com.aim.questionnaire.dao.RootPermissionEntityMapper;
-import com.aim.questionnaire.dao.UserEntityMapper;
-import com.aim.questionnaire.dao.UserRootEntityMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.aim.questionnaire.dao.entity.QuestionnaireEntity;
 import com.aim.questionnaire.dao.QuestionnaireEntityMapper;
-import com.aim.questionnaire.common.utils.DateUtil;
-import com.aim.questionnaire.common.utils.UUIDUtil;
-import com.aim.questionnaire.dao.ProjectEntityMapper;
-import com.aim.questionnaire.dao.entity.ProjectEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -27,7 +14,7 @@ public class QuestionnaireService {
 
   @Autowired private QuestionnaireEntityMapper questionnaireEntityMapper;
 
-  public int addQuestionnaire(QuestionnaireEntity entity) {
+  public String addQuestionnaire(QuestionnaireEntity entity) {
     HashMap<String, Object> map = new HashMap<String, Object>();
     String id = UUIDUtil.getOneUUID();
     map.put("id", id);
@@ -59,7 +46,11 @@ public class QuestionnaireService {
     if (entity.getProjectId() != null && !entity.getProjectId().equals("")) {
       map.put("projectId", entity.getProjectId());
     }
-    return questionnaireEntityMapper.addQuestionnaire(map);
+    int res = questionnaireEntityMapper.addQuestionnaire(map);
+    if (res > 0) {
+      return id;
+    }
+    return null;
   }
 
   public List<Map<String, Object>> queryQuestionListByProjectId(String projectId) {
@@ -92,5 +83,16 @@ public class QuestionnaireService {
   // queryProjectList
   public List<Map<String, Object>> queryProjectList(String projectId) {
     return questionnaireEntityMapper.queryQuestionListByProjectId(projectId);
+  }
+
+  // queryHistoryQuestionnaire
+  public List<Map<String, Object>> queryHistoryQuestionnaire(String projectId) {
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    return questionnaireEntityMapper.queryHistoryQuestionnaire(map);
+  }
+
+  // queryQuestionnaireMould
+  public List<Map<String, Object>> queryQuestionnaireMould(String dataId) {
+    return questionnaireEntityMapper.queryQuestionnaireMould(dataId);
   }
 }

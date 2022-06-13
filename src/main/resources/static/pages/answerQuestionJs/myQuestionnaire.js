@@ -257,6 +257,7 @@ function createGetProjectInfo(id, name) {
     deleteCookie("projectName");
     setCookie("projectId", id);
     setCookie("projectName", name);
+    setCookie("projectIdForCreate", id);
     window.location.href = "createQuestionnaire.html"
 }
 
