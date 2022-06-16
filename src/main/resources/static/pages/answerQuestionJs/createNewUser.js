@@ -15,7 +15,7 @@ $(function () {
 // 判断是编辑还是创建
 function changeTitle() {
     var userTitle = getCookie("userTitle");
-    var text = "<h1 class=\"hd-title pull-left\">" + userTitle + "用户</h1>";
+    var text = "<h1 class=\"hd-title pull-left\">" + userTitle + "</h1>";
     $("#userTitle").append(text);
     if (userTitle == '创建') {
         $("#userName").removeAttr("disabled");
@@ -36,10 +36,10 @@ function changeTitle() {
                 layer.msg("密码不能为空", {icon: 2});
             } else if (timeRange == "") {
                 layer.msg("起止时间不能为空", {icon: 2});
-            }  else if (userName.length > 10 || password.length > 10) {
+            } else if (userName.length > 10 || password.length > 10) {
                 layer.msg("账号或者密码最多不可超过10个字", {icon: 2});
-            } else if (startTime > stopTime){
-                layer.msg("开始时间不能晚于结束时间",{icon:2});
+            } else if (startTime > stopTime) {
+                layer.msg("开始时间不能晚于结束时间", {icon: 2});
             } else {
                 var roleId = $("#userRoleAll").val();
 
@@ -56,7 +56,7 @@ function changeTitle() {
                         setTimeout(function () {
                             window.location.href = 'userManage.html';
                         }, 1000)
-                    }else if(result.code == "50003"){
+                    } else if (result.code == "50003") {
                         //用户名已存在
                         layer.msg(result.message, {icon: 2});
                     } else if (result.code == "333") {
@@ -72,9 +72,18 @@ function changeTitle() {
         })
 
     } else {
-        $("#userName").attr("disabled","disabled");
+
+        $("#userName").attr("disabled", "disabled");
         $('#createBtn').val('保存修改');
         $('#noPassword').css('display', 'none');
+
+        if (userTitle == "编辑用户") {
+            $("#userName").removeAttr("disabled");
+            $('#noPassword').css('display', 'block');
+        } else {
+            $('#noPassword').css('display', 'block');
+        }
+
         var userId = getCookie('userId');
         var url = '/admin/selectUserInfoById';
         var data = {
@@ -85,7 +94,7 @@ function changeTitle() {
                 var userInfo = result.data;
                 userNameOld = $("#userName").val(userInfo.username);
                 $("#password").val(userInfo.password);
-                $("#config-demo").val(userInfo.startTime.replace(/-/g,'/') + " ~ " + userInfo.stopTime.replace(/-/g,'/'));
+                $("#config-demo").val(userInfo.startTime.replace(/-/g, '/') + " ~ " + userInfo.stopTime.replace(/-/g, '/'));
                 var roleId = userInfo.roleId;
                 $("#userRoleAll").val(roleId);
 
@@ -118,15 +127,15 @@ function changeTitle() {
 
                 var url = '/admin/modifyUserInfo';
 
-                if(userNameOld == userName){
+                if (userNameOld == userName) {
                     var data = {
                         "id": userId,
-                        // "username": userName,
+                        "username": userName,
                         "password": password,
                         "startTime": startTime,
                         "stopTime": stopTime
                     };
-                }else{
+                } else {
                     var data = {
                         "id": userId,
                         "username": userName,
@@ -143,7 +152,7 @@ function changeTitle() {
                         setTimeout(function () {
                             window.location.href = 'userManage.html';
                         }, 1000)
-                    }else if(result.code == "50003"){
+                    } else if (result.code == "50003") {
                         //用户名已存在
                         layer.msg(result.message, {icon: 2});
                     } else if (result.code == "333") {

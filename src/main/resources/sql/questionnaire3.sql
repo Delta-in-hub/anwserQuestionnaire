@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 12/06/2022 22:02:59
+ Date: 13/06/2022 14:06:44
 */
 
 SET NAMES utf8mb4;
@@ -36,8 +36,7 @@ CREATE TABLE `project_info`  (
 -- ----------------------------
 -- Records of project_info
 -- ----------------------------
-INSERT INTO `project_info` VALUES ('4cd6ccb65c894eafaa70b12330f8c2f8', '8ceeee2995f3459ba1955f85245dc7a5', '第一个项目', '第一个项目 的方法v', 'admin', '2020-09-27 16:23:20', 'admin', '2020-09-27 16:23:20');
-INSERT INTO `project_info` VALUES ('bcb2f0512e5b48999e099b2616e5ba10', NULL, 'adda', 'asdfsdafsdaf', 'admin', '2022-06-06 11:39:17', 'admin', '2022-06-06 11:39:17');
+INSERT INTO `project_info` VALUES ('bcb2f0512e5b48999e099b2616e5ba10', NULL, '名字新', 'adda', 'admin', '2022-06-06 11:39:17', 'admin', '2022-06-13 13:45:18');
 
 -- ----------------------------
 -- Table structure for questionnaire_info
@@ -62,13 +61,20 @@ CREATE TABLE `questionnaire_info`  (
   `question_title` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `question` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `context` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `questionnaire_info_project_info_id_fk`(`project_id`) USING BTREE,
+  CONSTRAINT `questionnaire_info_project_info_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project_info` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of questionnaire_info
 -- ----------------------------
 INSERT INTO `questionnaire_info` VALUES ('1cb11e5f58ef4a54adf40696c1ba9d14', 'bcb2f0512e5b48999e099b2616e5ba10', '测试1', NULL, NULL, '5', NULL, '2022-06-13 00:00:00', '2022-06-20 21:31:46', '0', NULL, NULL, NULL, NULL, '测试1测试1测试1', '啊深度发士大夫&123123&54345&撒的发生的&深度发士大夫&啊深度发士大夫&士大夫&', '[{\"questionType\":\"0\",\"questionTitle\":\"啊深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"啊士大夫必答题\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"123123\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题444\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"54345\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题345\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"撒的发生的\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题5677\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题画几个客户机\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"啊深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题韩国房价很高\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题啊士大夫共和国\",\"optionGrade\":\"\"}],\"important\":\"必答题\"}]', NULL);
+INSERT INTO `questionnaire_info` VALUES ('31007ba76fe044f8ba64a34fb33a091e', NULL, 'asdf', '1', NULL, '0', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, 'asdf', NULL, NULL, NULL);
+INSERT INTO `questionnaire_info` VALUES ('3ee02c28aa8c468b9899e759da7359a5', NULL, 'sadf', '1', NULL, '0', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, 'gdfgdfafdgagdfg', NULL, NULL, NULL);
+INSERT INTO `questionnaire_info` VALUES ('6329bfd0ac7b4eeb87bf74292cefba5a', 'bcb2f0512e5b48999e099b2616e5ba10', '测试3', '1', NULL, '5', NULL, '2022-06-14 00:00:00', '2022-06-21 12:41:46', '0', NULL, NULL, NULL, NULL, '测试33', '啊深度发士大夫&123123&深度发士大夫&54345&撒的发生的&啊深度发士大夫&士大夫&', '[{\"questionType\":\"0\",\"questionTitle\":\"啊深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"啊士大夫必答题\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"123123\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题444\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题画几个客户机\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"54345\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题345\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"撒的发生的\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题5677\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"啊深度发士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题韩国房价很高\",\"optionGrade\":\"\"}],\"important\":\"必答题\"},{\"questionType\":\"0\",\"questionTitle\":\"士大夫\",\"questionOption\":[{\"lineTitle\":\"\",\"optionWord\":\"必答题啊士大夫共和国\",\"optionGrade\":\"\"}],\"important\":\"必答题\"}]', NULL);
+INSERT INTO `questionnaire_info` VALUES ('a96d763ccf48475990149a1b672cd8c5', NULL, 'ghjk', '1', NULL, '0', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, 'hjk', NULL, NULL, NULL);
+INSERT INTO `questionnaire_info` VALUES ('c2caf79cc3ce410f8c71fd6490f5e7bb', NULL, '新模板', '1', NULL, '0', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, '新模板', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_info

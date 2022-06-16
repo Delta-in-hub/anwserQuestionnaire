@@ -67,32 +67,32 @@ function TableInit() {
                     return index + 1;
                 }
             },
-            {
-                field: 'username',
-                title: '用户账号',
-                align: 'center',
-                width: '230px'
-            },
-            {
-                field: 'password',
-                title: '用户密码',
-                align: 'center'
-            }, {
-                field: 'startTime',
-                title: '开始时间',
-                align: 'center'
-            }, {
-                field: 'endTime',
-                title: '结束时间',
-                align: 'center'
-            },
-            {
-                field: 'operation',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,//给按钮注册事件
-                formatter: addFunctionAlty//表格中增加按钮
-            }],
+                {
+                    field: 'username',
+                    title: '用户账号',
+                    align: 'center',
+                    width: '230px'
+                },
+                {
+                    field: 'password',
+                    title: '用户密码',
+                    align: 'center'
+                }, {
+                    field: 'startTime',
+                    title: '开始时间',
+                    align: 'center'
+                }, {
+                    field: 'endTime',
+                    title: '结束时间',
+                    align: 'center'
+                },
+                {
+                    field: 'operation',
+                    title: '操作',
+                    align: 'center',
+                    events: operateEvents,//给按钮注册事件
+                    formatter: addFunctionAlty//表格中增加按钮
+                }],
             responseHandler: function (res) {
                 //console.log(res);
                 if (res.code == "666") {
@@ -119,8 +119,11 @@ function TableInit() {
                                 dataNewObj.startTime = userInfo[i].start_time;
                             if (userInfo[i].endTime)
                                 dataNewObj.endTime = userInfo[i].endTime;
+                            else if (userInfo[i].stopTime)
+                                dataNewObj.endTime = userInfo[i].stopTime;
                             else
                                 dataNewObj.endTime = userInfo[i].stop_time;
+
                             // dataNewObj.startTime =  String(userInfo[i].startTime).replace(/-/g,'/')
                             // dataNewObj.endTime = String(userInfo[i].stopTime).replace(/-/g,'/')
                             // dataNewObj.startTime = userInfo[i].startTime.replace(/-/g,'/');
@@ -189,8 +192,9 @@ function addFunctionAlty(value, row, index) {
 
 //重置密码
 function resetPassword(id) {
-    alert("重置密码")
-
+    setCookie("userTitle", "重置密码");
+    setCookie("userId", id);
+    window.location.href = "createNewUser.html";
 }
 
 // 打开创建用户页
@@ -205,10 +209,12 @@ function openCreateUserPage(id, value) {
     window.location.href = 'createNewUser.html';
 }
 
-function editUserPage() {
-
-    alert("编辑用户")
+function editUserPage(id) {
+    setCookie("userTitle", "编辑用户");
+    setCookie("userId", id);
+    window.location.href = 'createNewUser.html';
 }
+
 // 修改用户状态（禁用、开启）
 function changeStatus(index) {
 
@@ -217,7 +223,28 @@ function changeStatus(index) {
 
 //删除用户
 function deleteUser(id) {
-
-    alert("删除用户")
+    layer.confirm('您确认要删除此用户吗？', {
+        btn: ['确定', '取消'] //按钮
+    }, function () {
+        var url = '/admin/deleteUserInfoById';
+        var data = {
+            id: id
+        };
+        commonAjaxPost(true, url, data, function (result) {
+            // //console.log(result);
+            if (result.code == "666") {
+                layer.msg(result.message, {icon: 1});
+                window.location.reload();
+            } else if (result.code == "333") {
+                layer.msg(result.message, {icon: 2});
+                setTimeout(function () {
+                    window.location.href = 'login.html';
+                }, 1000);
+            } else {
+                layer.msg(result.message, {icon: 2});
+            }
+        });
+    }, function () {
+    });
 }
 

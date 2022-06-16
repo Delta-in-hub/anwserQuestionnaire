@@ -3,10 +3,6 @@ package com.aim.questionnaire.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +26,9 @@ public class UserController {
 
   private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-  @Autowired
-  private UserService userService;
+  @Autowired private UserService userService;
 
-  @Autowired
-  private UserEntityMapper userEntityMapper;
+  @Autowired private UserEntityMapper userEntityMapper;
 
   /**
    * 用户登录
@@ -42,7 +36,9 @@ public class UserController {
    * @param map
    * @return
    */
-  @RequestMapping(value = "/userLogin", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/userLogin",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity userLogin(@RequestBody UserEntity userEntity) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -52,7 +48,8 @@ public class UserController {
       logger.info("login username is " + username);
       logger.info("login user password is " + password);
 
-      List<UserEntity> hasUser = userEntityMapper.selectUserInfo(userEntity);
+      List<UserEntity> hasUser = userService.selectUserInfo(userEntity);
+
       if (CollectionUtils.isEmpty(hasUser) || !hasUser.get(0).getPassword().equals(password)) {
         httpResponseEntity.setCode(Constans.EXIST_CODE);
         httpResponseEntity.setData(null);
@@ -77,7 +74,9 @@ public class UserController {
    * @param map
    * @return
    */
-  @RequestMapping(value = "/queryUserList", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/queryUserList",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity queryUserList(@RequestBody Map<String, Object> map) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -94,7 +93,9 @@ public class UserController {
    * @param map
    * @return
    */
-  @RequestMapping(value = "/addUserInfo", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/addUserInfo",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity addUserInfo(@RequestBody Map<String, Object> map) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -121,11 +122,20 @@ public class UserController {
    * @param map
    * @return
    */
-  @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/modifyUserInfo",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity modifyUserInfo(@RequestBody Map<String, Object> map) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-
+    int res = userService.modifyUserInfo(map);
+    if (res == 1) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.UPDATE_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.EXIST_CODE);
+      httpResponseEntity.setMessage(Constans.EXIST_MESSAGE);
+    }
     return httpResponseEntity;
   }
 
@@ -135,11 +145,21 @@ public class UserController {
    * @param userEntity
    * @return
    */
-  @RequestMapping(value = "/selectUserInfoById", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/selectUserInfoById",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity selectUserInfoById(@RequestBody UserEntity userEntity) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-
+    Map<String, Object> map = userService.selectUserInfoById(userEntity);
+    if (map == null) {
+      httpResponseEntity.setCode(Constans.EXIST_CODE);
+      httpResponseEntity.setMessage(Constans.EXIST_MESSAGE);
+    } else {
+      httpResponseEntity.setData(map);
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.STATUS_MESSAGE);
+    }
     return httpResponseEntity;
   }
 
@@ -149,7 +169,9 @@ public class UserController {
    * @param map
    * @return
    */
-  @RequestMapping(value = "/modifyUserStatus", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/modifyUserStatus",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
   public HttpResponseEntity modifyUserStatus(@RequestBody Map<String, Object> map) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -163,11 +185,20 @@ public class UserController {
    * @param userEntity
    * @return
    */
-  @RequestMapping(value = "/deleteUserInfoById", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/deleteUserInfoById",
+      method = RequestMethod.POST,
       headers = "Accept=application/json")
-  public HttpResponseEntity deteleUserInfoById(@RequestBody UserEntity userEntity) {
+  public HttpResponseEntity deleteUserInfoById(@RequestBody UserEntity userEntity) {
     HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-
+    int res = userService.deleteUserInfoById(userEntity);
+    if (res == 1) {
+      httpResponseEntity.setCode(Constans.SUCCESS_CODE);
+      httpResponseEntity.setMessage(Constans.DELETE_MESSAGE);
+    } else {
+      httpResponseEntity.setCode(Constans.EXIST_CODE);
+      httpResponseEntity.setMessage(Constans.EXIST_MESSAGE);
+    }
     return httpResponseEntity;
   }
 

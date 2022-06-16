@@ -176,7 +176,7 @@ public interface UserEntityMapper {
      * @param userEntity
      * @return
      */
-    int deteleUserInfoById(UserEntity userEntity);
+    int deleteUserInfoById(UserEntity userEntity);
 
     /**
      * 查询用户创建的项目
